@@ -14,7 +14,7 @@ export function MobileNavButton({ label, path, id }: NavButtonsProps) {
         <li key={id}>
             <Link to={path} >
                 <SheetClose asChild>
-                    <Button>{label.toUpperCase()}</Button>
+                    <Button variant='ghost'>{label.toUpperCase()}</Button>
                 </SheetClose>
             </Link>
         </li>
@@ -25,7 +25,7 @@ export function DesktopNavButton({ label, path, id }: NavButtonsProps) {
     return (
         <li key={id}>
             <Link to={path} >
-                <Button>{label.toUpperCase()}</Button>
+                <Button variant='ghost'>{label.toUpperCase()}</Button>
             </Link>
         </li>
     );
