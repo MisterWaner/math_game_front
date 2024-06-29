@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Link } from "react-router-dom";
 
 import { registerSchema } from "@/lib/zod-schemas";
 import {
@@ -37,9 +36,6 @@ export default function SignupForm() {
         console.log(values);
     }
 
-    function onCancel() {
-        console.log("cancel");
-    }
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -141,10 +137,7 @@ export default function SignupForm() {
                     />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                    <Button type="submit">S&apos;enregistrer</Button>
-                    <Button asChild variant="destructive" onClick={onCancel}>
-                        <Link to="/">Annuler</Link>
-                    </Button>
+                    <Button type="submit" className="col-start-2">S&apos;enregistrer</Button>
                 </div>
             </form>
         </Form>
