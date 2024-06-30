@@ -1,6 +1,6 @@
 import { useCoursesStore } from "@/store/CoursesStore";
 
-export default function ScoreIncicator() {
+export default function ScoreIndicator() {
     const score = useCoursesStore((state) => state.score);
 
     return (

@@ -1,5 +1,7 @@
 import ContentSection from "@/components/ContentSection";
 import SignupModal from "@/components/Modals/SignupModal";
+import ScoreCard from "@/components/Cards/ScoreCard";
+import Top5Table from "@/components/RankingTables/Top5Table";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -47,6 +49,13 @@ export default function Home() {
                         pour essayer, mais ta progression ne saura pas
                         sauvegarder et ton nombre de vie sera limité.
                     </p>
+                </div>
+            </ContentSection>
+            <ContentSection>
+                <div className="mt-10">
+                    <ScoreCard title="Top 5 du mois">
+                        <Top5Table />
+                    </ScoreCard>
                 </div>
             </ContentSection>
         </>

@@ -9,6 +9,7 @@ import {
 
 import { useCoursesStore } from "@/store/CoursesStore";
 import { courseSelectorData } from "@/lib/course-selector-data";
+import { Course } from "@/lib/types";
 
 export default function CourseSelector() {
     const courseSelector = courseSelectorData;
@@ -30,10 +31,10 @@ export default function CourseSelector() {
                         <Button className="w-full">{label}</Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        {courses.map(({ id, title, path, type }) => (
+                        {courses.map(({ id, title, path, type }: Course) => (
                             <DropdownMenuItem key={id}>
                                 <Link
-                                    to={path}
+                                    to={`/jouer/${path}`}
                                     className="w-full"
                                     onClick={() => {
                                         selectCourse(title, true, type);

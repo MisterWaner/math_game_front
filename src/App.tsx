@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 
 import MainLayout from "@/layout/MainLayout";
+import AlgebreLayout from "./layout/AlgebreLayout";
 import Home from "./pages/Home";
 import Ranking from "./pages/Ranking";
 import Playing from "./pages/Playing";
@@ -20,12 +21,14 @@ function App() {
                     <Route index element={<Home />} />
                     <Route path="/connexion" element={<Connexion />} />
                     <Route path="/classements" element={<Ranking />} />
-                    <Route path="/jouer" element={<Playing />} >
-                        <Route path=":type" element={<Game />} />
+                    <Route path="/jouer" element={<Playing />} />
+                    <Route path="jouer/:type" element={<AlgebreLayout />}>
+                        <Route index element={<Game />} />
                     </Route>
+                    
                 </Route>
             </>
-        ),
+        )
     );
 
     return (

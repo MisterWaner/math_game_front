@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import {
     Card,
     CardTitle,
@@ -18,6 +18,7 @@ export default function QuestionCard() {
     const [dialogTitle, setDialogTitle] = useState<string>("");
     const [dialogTitleColor, setDialogTitleColor] = useState<string>("");
     const [dialogActionColor, setDialogActionColor] = useState<string>("");
+    const navigate = useNavigate();
 
     const question = useCoursesStore((state) => state.question);
     const playerAnswer = useCoursesStore((state) => state.playerAnswer);
@@ -92,7 +93,7 @@ export default function QuestionCard() {
         console.log("save score");
         resetProgress();
         resetQuestionCounter();
-        //router.push("/jeu");
+        navigate("/jouer");
     };
 
     return (
