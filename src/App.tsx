@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Ranking from "./pages/Ranking";
 import Playing from "./pages/Playing";
 import Connexion from "./pages/Connexion";
+import Game from "./pages/Game";
 
 function App() {
     const router = createBrowserRouter(
@@ -19,7 +20,9 @@ function App() {
                     <Route index element={<Home />} />
                     <Route path="/connexion" element={<Connexion />} />
                     <Route path="/classements" element={<Ranking />} />
-                    <Route path="/jouer" element={<Playing />} />
+                    <Route path="/jouer" element={<Playing />} >
+                        <Route path=":type" element={<Game />} />
+                    </Route>
                 </Route>
             </>
         ),
