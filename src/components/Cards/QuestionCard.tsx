@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import ResultModal  from "@/components/Modals/ResultModal";
+import ResultModal from "@/components/Modals/ResultModal";
 import SaveScoreModal from "@/components/Modals/SaveScoreModal";
 
 import { useCoursesStore } from "@/store/CoursesStore";
@@ -31,7 +31,10 @@ export default function QuestionCard() {
     const resetQuestionCounter = useCoursesStore(
         (state) => state.resetQuestionCounter
     );
-
+    const incrementDailyScore = useCoursesStore(
+        (state) => state.incrementDailyScore
+    );
+    //const generateQuestion = useCoursesStore((state) => state.generateQuestion);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         useCoursesStore.setState({
@@ -80,16 +83,14 @@ export default function QuestionCard() {
     };
 
     const handleRestart = () => {
-        console.log("save score");
+        incrementDailyScore();
         resetProgress();
         resetScore();
         resetQuestionCounter;
-        
     };
 
-    
     const handleSaveScore = () => {
-        // TODO: save score
+        incrementDailyScore();
         console.log("save score");
         resetProgress();
         resetQuestionCounter();
@@ -131,6 +132,7 @@ export default function QuestionCard() {
                                 type="text"
                                 onChange={handleInputChange}
                                 value={playerAnswer}
+                                
                             />
                         </div>
                     </CardContent>

@@ -184,15 +184,15 @@ export const useCoursesStore = create<CourseState & Action>()((set, get) => ({
         set({ question, type });
     },
     incrementDailyScore: () => {
-        const { dailyScore } = get();
-        set({ dailyScore: dailyScore + 1 });
+        const { dailyScore, score } = get();
+        set({ dailyScore: dailyScore + score });
     },
     incrementWeeklyScore: () => {
-        const { weeklyScore } = get();
-        set({ weeklyScore: weeklyScore + 1 });
+        const { weeklyScore, dailyScore } = get();
+        set({ weeklyScore: weeklyScore + dailyScore });
     },
     incrementMonthlyScore: () => {
-        const { monthlyScore } = get();
-        set({ monthlyScore: monthlyScore + 1 });
+        const { monthlyScore, weeklyScore } = get();
+        set({ monthlyScore: monthlyScore + weeklyScore });
     },
 }));
