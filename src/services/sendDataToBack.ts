@@ -1,19 +1,22 @@
 const BASE_URL = "http://localhost:3001";
 
-export const sendUSerDataToBack = async (formData: FormData) => {
+import { User } from "@/lib/types";
+
+export const sendUSerDataToBack = async (data: User) => {
     try {
         const response = await fetch(`${BASE_URL}/users`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify(data),
         });
         console.log(response);
 
-        if (response.ok && response.status === 200) {
-            console.log(response.formData, "Les données sont enregistrées");
-            return response.json();
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData, "Les données sont enregistrées");
+            return responseData;
         } else {
             throw new Error("Une erreur est survenue lors de la creation");
         }

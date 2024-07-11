@@ -20,6 +20,7 @@ import {
     SelectTrigger,
     SelectContent,
 } from "@/components/ui/select";
+import { sendUSerDataToBack } from "@/services/sendDataToBack";
 
 export default function SignupForm() {
     const form = useForm<z.infer<typeof registerSchema>>({
@@ -28,12 +29,18 @@ export default function SignupForm() {
             username: "",
             password: "",
             confirmation: "",
+            age: 0,
             level: "CP",
         },
     });
 
     function onSubmit(values: z.infer<typeof registerSchema>) {
-        console.log(values);
+        try {
+            sendUSerDataToBack(values);
+        } catch (error) {
+            console.error(error, "Erreur d'envoie des données au back");
+        }
+        
     }
 
     return (
@@ -62,7 +69,7 @@ export default function SignupForm() {
                         <FormItem>
                             <FormLabel>Mot de Passe</FormLabel>
                             <FormControl>
-                                <Input placeholder="Mot de passe" {...field} />
+                                <Input placeholder="Mot de passe" {...field} type="password" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -77,6 +84,7 @@ export default function SignupForm() {
                             <FormControl>
                                 <Input
                                     placeholder="Confirme ton mot de passe"
+                                    type="password"
                                     {...field}
                                 />
                             </FormControl>
