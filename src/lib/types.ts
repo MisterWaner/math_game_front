@@ -12,5 +12,12 @@ export type User = {
     confirmation: string;
     age: number;
     level: string;
-}   
+}  
+
+export type InvitedUser = {
+    id?: number;
+    username: string;
+    age: number;
+    level: string;
+}
 

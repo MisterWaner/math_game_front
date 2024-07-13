@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 
-import { registerSchema } from "@/lib/zod-schemas";
+import { invitedUserSchema } from "@/lib/zod-schemas";
 import {
     Form,
     FormControl,
@@ -21,44 +21,52 @@ import {
     SelectTrigger,
     SelectContent,
 } from "@/components/ui/select";
-import { sendUSerDataToBack } from "@/services/sendDataToBack";
+import { sendInvitedUserDataToBack } from "@/services/sendDataToBack";
 
-export default function SignupForm() {
-    const form = useForm<z.infer<typeof registerSchema>>({
-        resolver: zodResolver(registerSchema),
+export default function InvitedUserForm() {
+    const form = useForm<z.infer<typeof invitedUserSchema>>({
+        resolver: zodResolver(invitedUserSchema),
         defaultValues: {
             username: "",
-            password: "",
-            confirmation: "",
             age: 0,
             level: "CP",
         },
     });
+
     const navigate = useNavigate();
 
-    function onSubmit(values: z.infer<typeof registerSchema>) {
+    function onSubmit(values: z.infer<typeof invitedUserSchema>) {
         try {
-            sendUSerDataToBack(values);
+            sendInvitedUserDataToBack({
+                username: `invited_${values.username}`,
+                age: values.age,
+                level: values.level,
+            });
             navigate("/jouer");
+            console.log("Les données sont enregistrées", values );
         } catch (error) {
             console.error(error, "Erreur d'envoie des données au back");
         }
-        
     }
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="grid gap-4 py-4"
+            >
                 <FormField
                     control={form.control}
                     name="username"
                     render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Pseudo</FormLabel>
+                        <FormItem className="grid grid-cols-4 items-center gap-4">
+                            <FormLabel className="text-right">Pseudo</FormLabel>
                             <FormControl>
                                 <Input
                                     placeholder="Choisis ton pseudo"
                                     {...field}
+                                    className="col-span-3"
+                                    
                                 />
                             </FormControl>
                             <FormMessage />
@@ -67,67 +75,38 @@ export default function SignupForm() {
                 />
                 <FormField
                     control={form.control}
-                    name="password"
+                    name="age"
                     render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Mot de Passe</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Mot de passe" {...field} type="password" />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="confirmation"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Confirmation</FormLabel>
+                        <FormItem className="grid grid-cols-4 items-center gap-4">
+                            <FormLabel className="text-right">Age</FormLabel>
                             <FormControl>
                                 <Input
-                                    placeholder="Confirme ton mot de passe"
-                                    type="password"
+                                    placeholder="Saisis ton age"
                                     {...field}
+                                    className="col-span-3"
+                                    type="number"
+                                    min={0}
+                                    max={100}
                                 />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                        control={form.control}
-                        name="age"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Age</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        placeholder="Saisis ton age"
-                                        {...field}
-                                        type="number"
-                                        min={0}
-                                        max={100}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="level"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Niveau</FormLabel>
+                <FormField
+                    control={form.control}
+                    name="level"
+                    render={({ field }) => (
+                        <FormItem className="grid grid-cols-4 items-center gap-4">
+                            <FormLabel className="text-right">Niveau</FormLabel>
+                            <div className="col-span-3">
                                 <Select
                                     onValueChange={field.onChange}
                                     defaultValue={field.value}
                                 >
                                     <FormControl>
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Choisis ton niveau" />
+                                            <SelectValue placeholder="Choisi ton niveau" />
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
@@ -145,13 +124,17 @@ export default function SignupForm() {
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                    <Button type="submit" className="col-start-2">S&apos;enregistrer</Button>
+                            </div>
+
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <div className="grid grid-cols-4">
+                <span className="col-span-2"></span>
+                    <Button type="submit" className="col-span-2 place-items-end">
+                        Sauvegarder
+                    </Button>
                 </div>
             </form>
         </Form>
