@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import { loginSchema } from "@/lib/zod-schemas";
 import {
@@ -14,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import SignupModal from "../Modals/SignupModal";
+import { handleLogin } from "@/services/auth";
 
 export default function LoginForm() {
     const form = useForm<z.infer<typeof loginSchema>>({
@@ -24,8 +27,18 @@ export default function LoginForm() {
         },
     });
 
+    const navigate = useNavigate();
+
+    const username = Cookies.get("username");
+
     function onSubmit(values: z.infer<typeof loginSchema>) {
-        console.log(values);
+        try {
+            handleLogin(values);
+            
+            navigate(`/compte/:${username}`);
+        } catch (error) {
+            console.error(error, "Erreur d'envoie des données au back");
+        }
     }
 
     return (
@@ -51,7 +64,11 @@ export default function LoginForm() {
                         <FormItem>
                             <FormLabel>Mot de passe</FormLabel>
                             <FormControl>
-                                <Input placeholder="Mot de passe" type="password" {...field} />
+                                <Input
+                                    placeholder="Mot de passe"
+                                    type="password"
+                                    {...field}
+                                />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

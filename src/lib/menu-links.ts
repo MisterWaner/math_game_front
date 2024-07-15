@@ -1,4 +1,4 @@
-const menuLinks: { id: number, label: string, path: string }[] = [
+export const menuLinks: { id: number, label: string, path: string }[] = [
     {
         id: 1,
         label: "Accueil",
@@ -21,4 +21,20 @@ const menuLinks: { id: number, label: string, path: string }[] = [
     }
 ]
 
-export default menuLinks;
+export const userMenuLinks: { id: number, label: string, path: string }[] = [
+    {
+        id: 1,
+        label: "Mon compte",
+        path: "/compte/username"
+    },
+    {
+        id: 2,
+        label: "Mon classement",
+        path: "/classements"
+    },
+    {
+        id: 3,
+        label: "Se Déconnecter",
+        path: "/connexion"
+    }
+]

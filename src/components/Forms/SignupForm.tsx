@@ -39,7 +39,7 @@ export default function SignupForm() {
     function onSubmit(values: z.infer<typeof registerSchema>) {
         try {
             sendUSerDataToBack(values);
-            navigate("/jouer");
+            navigate("/connexion");
         } catch (error) {
             console.error(error, "Erreur d'envoie des données au back");
         }
