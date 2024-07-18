@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 
 import { loginSchema } from "@/lib/zod-schemas";
 import {
@@ -16,34 +17,79 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import SignupModal from "../Modals/SignupModal";
-import { handleLogin } from "@/services/auth";
+import { User } from "@/lib/types";
+
+const BASE_URL = "http://localhost:3001";
 
 export default function LoginForm() {
     const form = useForm<z.infer<typeof loginSchema>>({
-        resolver: zodResolver(loginSchema),
-        defaultValues: {
-            username: "",
-            password: "",
-        },
+        resolver: zodResolver(loginSchema)
     });
 
     const navigate = useNavigate();
 
-    const username = Cookies.get("username");
-
-    function onSubmit(values: z.infer<typeof loginSchema>) {
+    async function handleLogin(data: z.infer<typeof loginSchema>) {
         try {
-            handleLogin(values);
+            const response = await fetch(`${BASE_URL}/auth/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
             
-            navigate(`/compte/:${username}`);
+            if (response.status === 200) {
+                const responseData = await response.json();
+                const { token } = responseData;
+                const username = jwtDecode<User>(token).username;
+                const level = jwtDecode<User>(token).level;
+                const age = jwtDecode<User>(token).age;
+                const id = jwtDecode<User>(token).id;
+
+                console.log(username);
+
+                Cookies.set("token", token, {
+                    secure: true,
+                    sameSite: "None",
+                    expires: 1,
+                });
+                Cookies.set("username", username, {
+                    secure: true,
+                    sameSite: "None",
+                    expires: 1,
+                });
+                Cookies.set("level", level, {
+                    secure: true,
+                    sameSite: "None",
+                    expires: 1,
+                });
+                Cookies.set("age", String(age), {
+                    secure: true,
+                    sameSite: "None",
+                    expires: 1,
+                });
+                Cookies.set("id", String(id), {
+                    secure: true,
+                    sameSite: "None",
+                    expires: 1,
+                });
+
+                navigate(`/compte/${username}`);
+            } else {
+                throw new Error("Une erreur est survenue lors de la connexion");
+            }
         } catch (error) {
             console.error(error, "Erreur d'envoie des données au back");
+            throw error;
         }
     }
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form
+                onSubmit={form.handleSubmit(handleLogin)}
+                className="space-y-6"
+            >
                 <FormField
                     control={form.control}
                     name="username"

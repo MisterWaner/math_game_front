@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import Cookies from "js-cookie";
 import React from "react";
 
@@ -8,14 +7,9 @@ export default function RouteGuard({
 }: {
     children: React.ReactNode;
 }) {
-    const [username, setUsername] = useState<string | undefined>("");
-
-    useEffect(() => {
-        const storedUsername = Cookies.get("username");
-        setUsername(storedUsername);
-    }, []);
-
-    if (!username) {
+    const username = Cookies.get("username");
+    const urlUsername = useParams().username;
+    if (!username || username !== urlUsername) {
         return <Navigate to="/connexion" />;
     }
 

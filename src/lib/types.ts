@@ -12,6 +12,10 @@ export type User = {
     confirmation: string;
     age: number;
     level: string;
+    daily_score: number;
+    weekly_score: number;
+    monthly_score: number;
+    global_score: number;
 }  
 
 export type InvitedUser = {

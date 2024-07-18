@@ -6,8 +6,21 @@ import {
     TableHeader,
     TableCell,
 } from "@/components/ui/table";
+import { User } from "@/lib/types";
+import { getDailyScores } from "@/services/getDataFromBack";
+import { useEffect, useState } from "react";
 
 export default function DailyRankingTable() {
+    const [dailyScores, setDailyScores] = useState<User[]>([]);
+
+    useEffect(() => {
+        const scores: Promise<User[]> = getDailyScores();
+        scores.then((data) => {
+            setDailyScores(data);
+        }).catch((error) => {
+            console.error(error, "Une erreur est survenue lors de la récupération des données");
+        });
+    }, []);
     return (
         <Table>
             <TableHeader className="bg-sky-400">
@@ -19,71 +32,13 @@ export default function DailyRankingTable() {
             </TableHeader>
 
             <TableBody>
-                <TableRow>
-                    <TableCell>1</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>2</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>3</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>4</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>5</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>6</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>7</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>8</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>9</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>10</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>11</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>12</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell>13</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>100</TableCell>
-                </TableRow>
+                {dailyScores.map((user, index) => (
+                    <TableRow key={index}>
+                        <TableCell>{index + 1}</TableCell>
+                        <TableCell>{user.username}</TableCell>
+                        <TableCell>{user.daily_score}</TableCell>
+                    </TableRow>
+                ))}
             </TableBody>
         </Table>
     );
