@@ -12,9 +12,9 @@ type NavButtonsProps = {
 export function MobileNavButton({ label, path, id }: NavButtonsProps) {
     return (
         <li key={id}>
-            <Link to={path} >
+            <Link to={path}>
                 <SheetClose asChild>
-                    <Button variant='ghost'>{label.toUpperCase()}</Button>
+                    <Button variant="ghost">{label.toUpperCase()}</Button>
                 </SheetClose>
             </Link>
         </li>
@@ -24,8 +24,8 @@ export function MobileNavButton({ label, path, id }: NavButtonsProps) {
 export function DesktopNavButton({ label, path, id }: NavButtonsProps) {
     return (
         <li key={id}>
-            <Link to={path} >
-                <Button variant='ghost'>{label.toUpperCase()}</Button>
+            <Link to={path}>
+                <Button variant="ghost">{label.toUpperCase()}</Button>
             </Link>
         </li>
     );

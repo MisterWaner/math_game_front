@@ -13,7 +13,7 @@ export default function Playing() {
                     <div className="grid grid-flow-col auto-cols-fr gap-4 ">
                         <Button className="font-semibold" asChild>
                             <Link to="/connexion">
-                                Joue en tant que Padawan
+                                Connecte toi Padawan !
                             </Link>
                         </Button>
                         <InvitedUserModal />

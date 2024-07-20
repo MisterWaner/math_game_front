@@ -1,26 +1,33 @@
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import {
     Sheet,
+    SheetTitle,
     SheetHeader,
     SheetTrigger,
     SheetContent,
     SheetClose,
+    SheetDescription
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { X, Menu } from "lucide-react";
 import { MobileNavButton } from "./NavButtons";
-import {menuLinks, userMenuLinks} from "@/lib/menu-links";
+import { menuLinks, userMenuLinks } from "@/lib/menu-links";
 
 export function MobileNav() {
     const links = menuLinks;
+    
     return (
         <nav className="md:hidden">
-            <Sheet>
+            <Sheet >
                 <SheetTrigger asChild>
                     <Button variant="ghost">
                         <Menu />
                     </Button>
                 </SheetTrigger>
-                <SheetContent side={"top"}>
+                <SheetContent aria-description="Menu principal" side={"top"}>
+                    <SheetDescription className="flex flex-row justify-between items-center space-y-0"></SheetDescription>
+                    <SheetTitle className="flex flex-row justify-between items-center space-y-0"></SheetTitle>
                     <SheetHeader className="flex flex-row justify-between items-center space-y-0">
                         <span></span>
                         <SheetClose asChild>
@@ -42,6 +49,17 @@ export function MobileNav() {
 
 export function UserMobileNav() {
     const links = userMenuLinks;
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        Cookies.remove("token");
+        Cookies.remove("username");
+        Cookies.remove("level");
+        Cookies.remove("age");
+        Cookies.remove("id");
+        navigate("/connexion");
+    };
     return (
         <nav className="md:hidden">
             <Sheet>
@@ -50,8 +68,10 @@ export function UserMobileNav() {
                         <Menu />
                     </Button>
                 </SheetTrigger>
-                <SheetContent side={"top"}>
+                <SheetContent side={"top"} aria-description="Menu principal">
+                    <SheetDescription className="flex flex-row justify-between items-center space-y-0"></SheetDescription>
                     <SheetHeader className="flex flex-row justify-between items-center space-y-0">
+                        <SheetTitle className="flex flex-row justify-between items-center space-y-0"></SheetTitle>
                         <span></span>
                         <SheetClose asChild>
                             <Button variant="ghost" className="">
@@ -63,6 +83,17 @@ export function UserMobileNav() {
                         {links.map((link) => (
                             <MobileNavButton key={link.id} {...link} />
                         ))}
+                        <li>
+                            <SheetClose asChild>
+                                <Button
+                                    variant="ghost"
+                                    className="uppercase"
+                                    onClick={handleLogout}
+                                >
+                                    Se Déconnecter
+                                </Button>
+                            </SheetClose>
+                        </li>
                     </ul>
                 </SheetContent>
             </Sheet>

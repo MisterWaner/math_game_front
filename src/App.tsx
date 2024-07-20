@@ -27,9 +27,10 @@ function App() {
                     <Route path="jouer/:type" element={<AlgebreLayout />}>
                         <Route index element={<Game />} />
                     </Route>
-                    <Route path="/compte/:username" element={<UserLayout />}>
-                        <Route index element={<Account />} />
-                    </Route>
+                </Route>
+                <Route path="/compte/:username" element={<UserLayout />}>
+                    <Route index element={<Account />} />
+                    <Route path="classements" element={<Ranking />} />
                 </Route>
             </>
         )
