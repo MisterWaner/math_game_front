@@ -34,7 +34,12 @@ export const userMenuLinks: { id: number, label: string, path: string}[] = [
     },
     {
         id: 2,
+        label: "Jouer",
+        path: `/compte/${username}/jouer`
+    },
+    {
+        id: 3,
         label: "Classements",
         path: `/compte/${username}/classements`
-    }
+    },
 ]

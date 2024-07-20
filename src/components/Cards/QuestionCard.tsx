@@ -13,6 +13,9 @@ import ResultModal from "@/components/Modals/ResultModal";
 import SaveScoreModal from "@/components/Modals/SaveScoreModal";
 
 import { useCoursesStore } from "@/store/CoursesStore";
+import { sendScoreDataToBack } from "@/services/sendDataToBack";
+import { User, InvitedUser } from "@/lib/types";
+import Cookies from "node_modules/@types/js-cookie";
 
 export default function QuestionCard() {
     const [dialogTitle, setDialogTitle] = useState<string>("");
@@ -82,6 +85,11 @@ export default function QuestionCard() {
         });
     };
 
+    const data: User | InvitedUser = useCoursesStore((state) => ({
+        username: Cookies.get("username"),
+        score: state.score,
+    }));
+
     const handleRestart = () => {
         incrementDailyScore();
         resetProgress();
@@ -91,7 +99,7 @@ export default function QuestionCard() {
 
     const handleSaveScore = () => {
         incrementDailyScore();
-        console.log("save score");
+        sendScoreDataToBack(data);
         resetProgress();
         resetQuestionCounter();
         navigate("/jouer");

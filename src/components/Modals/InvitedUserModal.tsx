@@ -9,11 +9,10 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-
-
 export default function InvitedUserModal() {
 
     return (
+        
         <Dialog>
             <DialogTrigger asChild>
                 <Button className="font-semibold" variant="outline">

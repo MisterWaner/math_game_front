@@ -16,6 +16,7 @@ import Game from "./pages/Game";
 import Account from "./pages/Account";
 
 function App() {
+
     const router = createBrowserRouter(
         createRoutesFromElements(
             <>
@@ -28,9 +29,13 @@ function App() {
                         <Route index element={<Game />} />
                     </Route>
                 </Route>
-                <Route path="/compte/:username" element={<UserLayout />}>
+                <Route path={`/compte/:username`} element={<UserLayout />}>
                     <Route index element={<Account />} />
                     <Route path="classements" element={<Ranking />} />
+                    <Route path="jouer" element={<Playing />} />
+                    <Route path="jouer/:type" element={<AlgebreLayout />}>
+                        <Route index element={<Game />} />
+                    </Route>
                 </Route>
             </>
         )

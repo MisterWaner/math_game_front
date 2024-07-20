@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 import { invitedUserSchema } from "@/lib/zod-schemas";
 import {
@@ -21,6 +22,7 @@ import {
     SelectTrigger,
     SelectContent,
 } from "@/components/ui/select";
+//import { DialogClose } from "@/components/ui/dialog";
 import { sendInvitedUserDataToBack } from "@/services/sendDataToBack";
 
 export default function InvitedUserForm() {
@@ -42,8 +44,27 @@ export default function InvitedUserForm() {
                 age: values.age,
                 level: values.level,
             });
-            navigate("/jouer");
-            console.log("Les données sont enregistrées", values );
+
+            Cookies.set("username", `invited_${values.username}`, {
+                secure: true,
+                sameSite: "None",
+                expires: 1, 
+            });
+            Cookies.set("level", values.level, {
+                secure: true,
+                sameSite: "None",
+                expires: 1,
+            });
+            Cookies.set("age", String(values.age), {
+                secure: true,
+                sameSite: "None",
+                expires: 1,
+            });
+
+            const username = Cookies.get("username");
+
+            navigate(`/compte/${username}`);
+            console.log("Les données sont enregistrées", values);
         } catch (error) {
             console.error(error, "Erreur d'envoie des données au back");
         }
@@ -66,7 +87,6 @@ export default function InvitedUserForm() {
                                     placeholder="Choisis ton pseudo"
                                     {...field}
                                     className="col-span-3"
-                                    
                                 />
                             </FormControl>
                             <FormMessage />
@@ -131,8 +151,11 @@ export default function InvitedUserForm() {
                     )}
                 />
                 <div className="grid grid-cols-4">
-                <span className="col-span-2"></span>
-                    <Button type="submit" className="col-span-2 place-items-end">
+                    <span className="col-span-2"></span>
+                    <Button
+                        type="submit"
+                        className="col-span-2 place-items-end"
+                    >
                         Sauvegarder
                     </Button>
                 </div>

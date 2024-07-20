@@ -50,3 +50,27 @@ export const sendInvitedUserDataToBack = async (data: InvitedUser) => {
         throw error;
     }
 };
+
+export const sendScoreDataToBack = async (data: User | InvitedUser) => {
+    try {
+        const response = await fetch(`${BASE_URL}/username/update-score`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        console.log(response);
+
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log(responseData, "Les données sont enregistrées");
+            return responseData;
+        } else {
+            throw new Error("Une erreur est survenue lors de la creation");
+        }
+    } catch (error) {
+        console.error("Une erreur est survenue", error);
+        throw error;
+    }
+};
